@@ -8,75 +8,96 @@ import { useState } from 'react'
 export default function Home() {
   const [saveData, setSaveData] = useState(null)
   return (
-    <main className="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center dark p-16">
-      <div className="bg-slate-700 rounded-lg shadow-lg p-8 dark:bg-slate-800 max-w-md flex flex-col">
-        <h1 className="text-2xl font-bold mb-4">Phasmophobia Save Editor</h1>
+    <main className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4 sm:p-8 md:p-16">
+      <div className="bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl p-10 sm:p-10 w-full max-w-4xl flex flex-col gap-8 border border-slate-700">
+        <div className="flex flex-col items-center gap-2 mb-2">
+          <h1 className="text-4xl font-extrabold text-center tracking-tight bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Phasmophobia Save Editor
+          </h1>
+          <p className="text-slate-300 text-center text-base mt-1 max-w-md">
+            Easily edit and save your Phasmophobia game save file safely.
+          </p>
+        </div>
 
-        {saveData && (
-          <div className="flex flex-col items-center justify-center">
-            <div className="flex gap-2 mb-4">
+        {saveData ? (
+          <div>
+            <div className="flex flex-col items-center gap-4"></div>
+            <div className="flex flex-col gap-3 items-center mb-4 w-full">
               <label
                 htmlFor="saveFileOutput"
-                className="bg-blue-500 hover:bg-blue-600 transition-colors text-white font-normal py-2 px-4 rounded-lg cursor-pointer"
+                className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 transition-all duration-200 text-white font-semibold py-2 px-5 rounded-lg cursor-pointer text-sm sm:text-base shadow-md w-full text-center"
               >
                 Download Save File
               </label>
               <label
                 htmlFor="saveFileOutputUnencrypted"
-                className="bg-purple-500 hover:bg-purple-600 transition-colors text-white font-normal py-2 px-4 rounded-lg cursor-pointer"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white font-semibold py-2 px-5 rounded-lg cursor-pointer text-sm sm:text-base shadow-md w-full text-center"
               >
-                Download Save File (unencrypted)
+                Download (unencrypted)
               </label>
               <FileSaver data={saveData} />
               <label
                 htmlFor="clearFile"
-                className="bg-red-500 hover:bg-red-600 transition-colors text-white font-normal py-2 px-4 rounded-lg cursor-pointer"
+                className="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 transition-all duration-200 text-white font-semibold py-2 px-5 rounded-lg cursor-pointer text-sm sm:text-base shadow-md w-full text-center"
               >
-                Close loaded file
+                Close File
               </label>
               <input
                 type="button"
                 id="clearFile"
                 className="hidden"
-                onClick={() => {
-                  setSaveData(null)
-                }}
+                onClick={() => setSaveData(null)}
               />
             </div>
-            <Editor data={saveData} />
+            <div className="w-full rounded-lg bg-slate-900/60 p-4 shadow-inner">
+              <Editor data={saveData} />
+            </div>
+            <p className="text-green-400 text-center text-sm mt-6 animate-pulse">
+              Save file loaded successfully. You can now edit and save your
+              changes.
+            </p>
           </div>
-        )}
-
-        {!saveData && (
-          <div className="flex flex-col items-center justify-center">
-            <div className="flex gap-2 mb-4">
+        ) : (
+          <div className="flex flex-col items-center gap-6">
+            <div className="flex flex-col gap-3 items-center mb-4 w-full">
               <label
                 htmlFor="saveFileInput"
-                className="bg-blue-500 hover:bg-blue-600 transition-colors text-white font-normal py-2 px-4 rounded-lg cursor-pointer"
+                className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 transition-all duration-200 text-white font-semibold py-2 px-5 rounded-lg cursor-pointer text-sm sm:text-base shadow-md w-full text-center"
               >
                 Upload Save File
               </label>
               <label
                 htmlFor="saveFileInputUnencrypted"
-                className="bg-purple-500 hover:bg-purple-600 transition-colors text-white font-normal py-2 px-4 rounded-lg cursor-pointer"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white font-semibold py-2 px-5 rounded-lg cursor-pointer text-sm sm:text-base shadow-md w-full text-center"
               >
-                Upload Save File (unencrypted)
+                Upload (unencrypted)
               </label>
               <FileLoader stateSetter={setSaveData} />
             </div>
-            <p className="text-sm mt-2 break-all">
-              On Windows, save data can be located at{' '}
-              <code className="bg-gray-900 rounded-md p-1">
-                %appdata%\..\LocalLow\Kinetic Games\Phasmophobia\SaveFile.txt
-              </code>
-            </p>
-            <p className="text-sm mt-2 break-all">
-              On Linux (Proton), save data can be located at{' '}
-              <code className="bg-gray-900 rounded-md p-1">
-                ~/.steam/steam/steamapps/compatdata/739630/pfx/drive_c/users/steamuser/AppData/LocalLow/Kinetic
-                Games/SaveFile.txt
-              </code>
-            </p>
+            <div className="flex flex-col gap-2 w-full">
+              <p className="text-xs sm:text-sm mt-1 break-all text-center text-slate-300">
+                <span className="font-semibold text-slate-200">
+                  Your save data can be located on:
+                </span>
+              </p>
+              <p className="text-xs sm:text-sm mt-1 break-all text-center text-slate-300">
+                <span className="font-semibold text-blue-300">Windows:</span>{' '}
+                <br />
+                <code className="bg-gray-900/80 rounded-md p-1 break-all">
+                  %appdata%\..\LocalLow\Kinetic Games\Phasmophobia\SaveFile.txt
+                </code>
+              </p>
+              <p className="text-xs sm:text-sm mt-1 break-all text-center text-slate-300">
+                <span className="font-semibold text-purple-300">
+                  Linux (Proton):
+                </span>{' '}
+                <br />
+                <code className="bg-gray-900/80 rounded-md p-1 break-all">
+                  ~/.steam/steam/steamapps/compatdata/739630/pfx/drive_c/users/steamuser/AppData/LocalLow/Kinetic
+                  Games/SaveFile.txt
+                </code>
+              </p>
+            </div>
           </div>
         )}
       </div>
